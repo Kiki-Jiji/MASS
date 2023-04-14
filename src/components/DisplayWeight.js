@@ -1,39 +1,21 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container'
+import './DisplayWeight.css'
+import Row from 'react-bootstrap/Row'
 
-import "chartjs-adapter-moment";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { Chart } from "react-chartjs-2";
-
-ChartJS.register(
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import Plot from 'react-plotly.js';
 
 class DisplayWeight extends React.Component {
 
     create_data(weightTB) {
         
+      console.log(weightTB)
+
         const weightData = weightTB.map(x => {
             return (
                 {
                     x: x.date,
-                    y: x.value
+                    y: x.weight
                 }
             )
         })
@@ -69,14 +51,46 @@ class DisplayWeight extends React.Component {
 
     render() {
 
-        let data = this.create_data(this.props.weight)
+      console.log(this.props.weight)
+
+        let dates = []
+        let values = []
+
+        for (let i of this.props.weight) {
+          dates.push(i.date)
+          values.push(i.value)
+        }
+
 
         return (
-            <Container>
+            <Container className = "chart">
                 <h2> View Weight </h2>
-
-                <Line  data={data.data} options={data.options}/>
-
+                <Row> 
+              <Plot
+                  data={[
+                    {
+                      x: dates,
+                      y: values,
+                      type: 'scatter',
+                      mode: 'lines+markers',
+                      marker: {color: 'red'},
+                    }
+                  ]}
+                  layout={ {title: 'A Fancy Plot',
+                  showlegend: false,
+                  showgrid: false,
+                  paper_bgcolor: 'rgba(0,0,0,0)',
+                  plot_bgcolor: 'rgba(0,0,0,0)',
+                  xaxis: {
+                    showgrid: false
+                  }
+                } }
+                config= {
+                  {responsive: true}
+                }
+             
+              />
+              </Row> 
             </Container>
 
 
@@ -86,3 +100,6 @@ class DisplayWeight extends React.Component {
 }
 
 export default DisplayWeight;
+
+
+

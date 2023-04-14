@@ -3,60 +3,62 @@ import DatePicker from 'react-date-picker';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
+import {HashRouter,Link,Route,Switch} from "react-router-dom";
+
+import './inputStyles.css'
 
 class InputWeight extends React.Component {
 
     state = {
-        date: new Date(),
-        num: 100
+      "date": new Date(this.props.lastWeight.date),
+      "value": this.props.lastWeight.value
     }
 
     changeNum = i => e => {
-                this.setState({num: Number(e.target.value)})
+                this.setState({value: Number(e.target.value)})
             }
 
     changeDate = i => e => {
-        console.log(e)
         this.setState({date: new Date(e)})
     }
 
   handleSubmit = e => {
 
+    let date = this.state.date
+    const date_string = date.toISOString().slice(0,10)
+
     this.props.addWeight({
-      date: this.state.date,
-      value: this.state.num
+      date: date_string,
+      value: this.state.value
     })
-
-
-    this.setState({num: 50})
   }
 
 render() {
   return (
-    <Container>
-        <Row>
-        <input
+    <Container className = "inputter">
+        <Row >
+        <input className = "weightInput inputBackGround"
                 type="number"
                 min={0}
                 max={99999}
                 step={1}
                 onChange={this.changeNum()}
-                value={this.state.num}
+                value={this.state.value}
             />
         </Row>
            
         <Row> 
-      <DatePicker
+      <DatePicker className = "dateRow inputBackGround"
         onChange={this.changeDate() }
         value={this.state.date}
       />
       </Row>
 
-      <Row> 
+      <Row > 
         <Button variant="primary" onClick={() => this.handleSubmit()}>Enter</Button>
       </Row>
 
-
+    <br/>
       
     </Container>
   );

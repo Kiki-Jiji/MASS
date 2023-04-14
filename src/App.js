@@ -1,39 +1,53 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {HashRouter,Link,Route,Switch} from "react-router-dom";
 
 import {LandingPage, InputWeight, DisplayWeight} from './components'
 
 class App extends React.Component {
 
+  // state = {
+  //   weight: [
+  //     {
+  //     date: new Date("2022-01-01"),
+  //     value: 100
+  //     }
+  // ]
+  // }
+
+
   state = {
     weight: [
       {
-      date: new Date("2020-01-01"),
+      date: "2023-04-01",
       value: 100.2
       },
       {
-        date: new Date("2020-01-02"),
+        date: "2023-04-02",
         value: 102.2
         },
       {
-        date: new Date("2020-01-03"),
+        date: "2023-04-03",
         value: 105.3
         },
         {
-          date: new Date("2020-01-11"),
+          date: "2023-04-11",
           value: 104.4
           },
   ]
   }
 
 
-  addWeight = e => {
+  addWeight =  e => {
+
+    console.log(e)
+
     var currentWeights = this.state.weight
 
     currentWeights.push(e)
 
-      this.setState({weight: currentWeights})
+    this.setState({weight: currentWeights})
       
 
   }
@@ -41,13 +55,25 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Hi</h1>
+        <div id='stars'></div>
+          <div id='stars2'></div>
+          <div id='stars3'></div>
 
-        <LandingPage/>
+        <h1 className = "AppTitle">⚛️ MASS ⚛️</h1>
+        <h2 className = "AppSubTitle"><em>E=mc<sup>2</sup></em></h2>
 
-        <InputWeight addWeight={this.addWeight}/>
-
-        <DisplayWeight weight={this.state.weight}/>
+        <HashRouter>
+          <div>
+              <Link to="/inputWeight"><h2>Input</h2></Link>
+              <Link to="/chart"><h2>Chart</h2></Link>
+          </div>
+        
+        <Switch>
+          <Route path="/inputWeight" exact component = {() => <InputWeight addWeight={this.addWeight} lastWeight = {this.state.weight[this.state.weight.length -1]}/>}/>
+          <Route path="/chart" exact component = {() => <DisplayWeight weight={this.state.weight}/> }/>
+        </Switch>
+        </HashRouter>
+        
       </div>
     )
   }

@@ -1,0 +1,22 @@
+
+
+.logo {
+    margin-top: 5em;
+}
+
+.inputter {
+    padding: 3em;
+}
+
+.dateRow {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.weightInput {
+    text-align: center;
+}
+
+.inputBackGround {
+    background-color: aliceblue;
+}
